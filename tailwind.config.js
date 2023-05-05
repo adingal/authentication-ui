@@ -2,7 +2,21 @@
 module.exports = {
   content: ['./src/**/*.{html,js,jsx}'],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'user-icon': "url('assets/images/userIcon.svg')",
+        'user-circle-icon': "url('assets/images/userCircleIcon.svg')",
+        'lock-icon': "url('assets/images/lockIcon.svg')",
+        darkness: "url('assets/images/darkness.webp')",
+      },
+      backgroundSize: {
+        25: '25px',
+        30: '30px',
+      },
+      backgroundPosition: {
+        'left-center': '8px center',
+      },
+    },
   },
   plugins: [],
 }
