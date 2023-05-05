@@ -1,8 +1,14 @@
 import React from 'react'
 import CustomInput from 'atoms/CustomInput'
+import CustomButton from 'atoms/CustomButton'
 import userCircleIcon from 'assets/images/userCircleIcon.svg'
 
 function Login() {
+  const onFormSubmit = (e) => {
+    e.preventDefault()
+    console.log('Form submit!')
+  }
+
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-darkness px-4">
       <div className="w-full min-w-[320px] max-w-sm relative bg-gray-300 p-6 md:p-8 lg:p-12 rounded-lg">
@@ -14,7 +20,7 @@ function Login() {
         <h1 className="text-3xl md:text-4xl lg:text-5xl text-center font-medium text-gray-600 tracking-wide mt-12 lg:mt-10 mb-4 md:mb-5 lg:mb-6">
           Login
         </h1>
-        <form>
+        <form onSubmit={onFormSubmit}>
           <CustomInput
             id="email"
             type="email"
@@ -29,14 +35,7 @@ function Login() {
             bgIconClass="bg-lock-icon"
             hasError={!true}
           />
-          <div>
-            <button
-              className="w-full bg-gray-400 hover:bg-gray-600 transition-colors shadow-md px-10 lg:px-11 py-2 lg:py-3 rounded-md text-lg md:text-xl lg:text-2xl text-white"
-              type="submit"
-            >
-              Login
-            </button>
-          </div>
+          <CustomButton type="submit" buttonText="Login" />
         </form>
       </div>
     </div>
