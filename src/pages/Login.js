@@ -1,13 +1,21 @@
 import React from 'react'
+import { useFormik } from 'formik'
+import validate from 'utils/validate'
 import CustomInput from 'atoms/CustomInput'
 import CustomButton from 'atoms/CustomButton'
 import userCircleIcon from 'assets/images/userCircleIcon.svg'
 
 function Login() {
-  const onFormSubmit = (e) => {
-    e.preventDefault()
-    console.log('Form submit!')
-  }
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate,
+    onSubmit: (values) => {
+      console.log(values)
+    },
+  })
 
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-darkness px-4">
@@ -20,20 +28,28 @@ function Login() {
         <h1 className="text-3xl md:text-4xl lg:text-5xl text-center font-medium text-gray-600 tracking-wide mt-12 lg:mt-10 mb-4 md:mb-5 lg:mb-6">
           Login
         </h1>
-        <form onSubmit={onFormSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <CustomInput
             id="email"
             type="email"
+            name="email"
             placeholder="Email"
             bgIconClass="bg-user-icon"
-            hasError={!true}
+            hasError={formik.errors.email !== false}
+            errorText={formik.errors.email}
+            onChange={formik.handleChange}
+            value={formik.values.email}
           />
           <CustomInput
             id="password"
             type="password"
+            name="password"
             placeholder="Password"
             bgIconClass="bg-lock-icon"
-            hasError={!true}
+            hasError={formik.errors.password !== false}
+            errorText={formik.errors.password}
+            onChange={formik.handleChange}
+            value={formik.values.password}
           />
           <CustomButton type="submit" buttonText="Login" />
         </form>
