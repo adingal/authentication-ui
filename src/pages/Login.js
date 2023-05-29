@@ -34,7 +34,7 @@ function Login() {
             type="email"
             name="email"
             placeholder="Email"
-            bgIconClass="bg-user-icon"
+            bgIconClass="bg-mail-icon"
             hasError={formik.errors.email !== false}
             errorText={formik.errors.email}
             onChange={formik.handleChange}
