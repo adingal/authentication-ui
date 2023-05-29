@@ -9,3 +9,7 @@
     font-family: 'Oswald', Arial, Helvetica, sans-serif;
   }
 }
+
+a.active {
+  text-decoration: underline;
+}
