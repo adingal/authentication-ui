@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import validate from 'utils/validate'
+import { validateLogin as validate } from 'utils/validate'
 import CustomInput from 'atoms/CustomInput'
 import CustomButton from 'atoms/CustomButton'
 import userCircleIcon from 'assets/images/userCircleIcon.svg'
