@@ -2,7 +2,7 @@ import React from 'react'
 
 function Users() {
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4">
+    <div className="max-w-7xl mx-auto py-8 md:py-12 lg:py-16 px-4">
       <table className="table-fixed mx-auto">
         <thead>
           <tr>
