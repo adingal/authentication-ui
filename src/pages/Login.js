@@ -34,7 +34,7 @@ function Login() {
             type="email"
             name="email"
             placeholder="Email"
-            bgIconClass="bg-mail-icon"
+            inputClass="bg-mail-icon"
             hasError={formik.errors.email !== false}
             errorText={formik.errors.email}
             onChange={formik.handleChange}
@@ -45,7 +45,7 @@ function Login() {
             type="password"
             name="password"
             placeholder="Password"
-            bgIconClass="bg-lock-icon"
+            inputClass="bg-lock-icon"
             hasError={formik.errors.password !== false}
             errorText={formik.errors.password}
             onChange={formik.handleChange}
