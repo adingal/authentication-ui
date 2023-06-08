@@ -29,7 +29,13 @@ const loginSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    logOut: (state) => {
+      state.currentUser = null
+      state.isLoading = false
+      state.error = null
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -47,5 +53,7 @@ const loginSlice = createSlice({
       })
   },
 })
+
+export const { logOut } = loginSlice.actions
 
 export default loginSlice.reducer
