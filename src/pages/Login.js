@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { validateLogin as validate } from 'utils/validate'
 import CustomInput from 'atoms/CustomInput'
 import CustomButton from 'atoms/CustomButton'
 import userCircleIcon from 'assets/images/userCircleIcon.svg'
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from 'store/login/loginSlice'
+
 function Login() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.login.currentUser)
+  const error = useSelector((state) => state.login.error)
+  const [errorMessage, setErrorMessage] = useState('')
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -13,9 +24,21 @@ function Login() {
     },
     validate,
     onSubmit: (values) => {
-      console.log(values)
+      dispatch(loginUser(values))
     },
   })
+
+  useEffect(() => {
+    if (currentUser && currentUser?.token) {
+      navigate('/users')
+    }
+  }, [currentUser])
+
+  useEffect(() => {
+    if (error && error?.message) {
+      setErrorMessage(error.message)
+    }
+  }, [error])
 
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-darkness px-4">
@@ -28,7 +51,7 @@ function Login() {
         <h1 className="text-3xl md:text-4xl lg:text-5xl text-center font-medium text-gray-600 tracking-wide mt-12 lg:mt-10 mb-4 md:mb-5 lg:mb-6">
           Login
         </h1>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} className="relative">
           <CustomInput
             id="email"
             type="email"
@@ -52,6 +75,11 @@ function Login() {
             value={formik.values.password}
           />
           <CustomButton type="submit" buttonText="Login" />
+          {errorMessage !== '' && (
+            <span className="w-full block absolute text-xs text-center text-red-600 tracking-wide py-2">
+              {errorMessage}
+            </span>
+          )}
         </form>
       </div>
     </div>
