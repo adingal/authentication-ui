@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 // Components
 import Header from 'components/Header'
 import Footer from 'components/Footer'
+import Loader from 'components/Loader'
 
 // Pages
 import Login from 'pages/Login'
@@ -27,6 +28,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <Loader />
       </Router>
     </Provider>
   )
