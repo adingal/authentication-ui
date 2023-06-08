@@ -23,6 +23,7 @@ function CustomInput(props) {
         onChange={onChange}
         value={value}
         disabled={isDisabled}
+        autoComplete="off"
       />
       <label htmlFor={id} className="hidden">
         {placeholder}
