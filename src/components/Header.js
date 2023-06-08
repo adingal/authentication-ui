@@ -1,11 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, NavLink } from 'react-router-dom'
 import logo from 'assets/images/logo-nobg.png'
 
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
+import { logOut } from 'store/login/loginSlice'
+
 function Header() {
   const location = useLocation()
+  const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.login.currentUser)
   const currentPathClass = location.pathname === '/' ? 'hidden' : 'block'
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (currentUser && currentUser?.token) {
+      setIsLoggedIn(true)
+    }
+  }, [currentUser])
 
   return (
     <header className={`${currentPathClass} bg-gray-100`}>
@@ -33,12 +45,13 @@ function Header() {
             </li>
             {isLoggedIn && (
               <li>
-                <NavLink
-                  to="/users/dafdfa"
+                <button
+                  type="button"
                   className="text-base sm:text-lg hover:underline"
+                  onClick={() => dispatch(logOut())}
                 >
                   Logout
-                </NavLink>
+                </button>
               </li>
             )}
           </ul>
