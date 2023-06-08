@@ -1,6 +1,10 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
+// Redux
+import { store } from 'store'
+import { Provider } from 'react-redux'
+
 // Components
 import Header from 'components/Header'
 import Footer from 'components/Footer'
@@ -12,17 +16,19 @@ import UserDetails from 'pages/UserDetails'
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/:id" element={<UserDetails />} />
-        </Routes>
-      </main>
-      <Footer />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<UserDetails />} />
+          </Routes>
+        </main>
+        <Footer />
+      </Router>
+    </Provider>
   )
 }
 
