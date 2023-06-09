@@ -5,6 +5,7 @@ import logo from 'assets/images/logo-nobg.png'
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
 import { logOut } from 'store/login/loginSlice'
+import { clearState } from 'store/users/usersSlice'
 
 function Header() {
   const location = useLocation()
@@ -48,7 +49,10 @@ function Header() {
                 <button
                   type="button"
                   className="text-base sm:text-lg hover:underline"
-                  onClick={() => dispatch(logOut())}
+                  onClick={() => {
+                    dispatch(logOut())
+                    dispatch(clearState())
+                  }}
                 >
                   Logout
                 </button>
