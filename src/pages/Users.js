@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import TableItem from 'atoms/TableItem'
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUsers } from 'store/users/usersSlice'
 
 function Users() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const currentUser = useSelector((state) => state.login.currentUser)
+  const users = useSelector((state) => state.users.userList)
 
-  const onEditClick = (e) => {
-    console.log(e)
-    navigate('/users/1')
+  useEffect(() => {
+    if (users && users.length === 0) {
+      dispatch(fetchUsers(localStorage.getItem('token')))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!currentUser) navigate('/')
+  }, [currentUser])
+
+  const onEditClick = (id) => {
+    navigate(`/users/${id}`)
   }
 
   return (
@@ -35,42 +53,11 @@ function Users() {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-b border-gray-100">
-            <td className="text-left p-4">John Doe</td>
-            <td className="text-left p-4">jdoe@aol.com</td>
-            <td className="text-left p-4">Admin</td>
-            <td className="text-left p-4">{new Date().toLocaleDateString()}</td>
-            <td className="text-left p-4">No</td>
-            <td className="text-left p-4">
-              <button type="button" onClick={onEditClick}>
-                Edit
-              </button>
-            </td>
-          </tr>
-          <tr className="border-b border-gray-100">
-            <td className="text-left p-4">Juan Dela Cruz</td>
-            <td className="text-left p-4">jd@aol.com</td>
-            <td className="text-left p-4">User</td>
-            <td className="text-left p-4">{new Date().toLocaleDateString()}</td>
-            <td className="text-left p-4">Yes</td>
-            <td className="text-left p-4">
-              <button type="button" onClick={onEditClick}>
-                Edit
-              </button>
-            </td>
-          </tr>
-          <tr className="border-b border-gray-100">
-            <td className="text-left p-4">Ricky Scott</td>
-            <td className="text-left p-4">rscott@aol.com</td>
-            <td className="text-left p-4">User</td>
-            <td className="text-left p-4">{new Date().toLocaleDateString()}</td>
-            <td className="text-left p-4">Yes</td>
-            <td className="text-left p-4">
-              <button type="button" onClick={onEditClick}>
-                Edit
-              </button>
-            </td>
-          </tr>
+          {users &&
+            users?.length > 0 &&
+            users.map((item) => (
+              <TableItem item={item} onEditClick={onEditClick} key={item._id} />
+            ))}
         </tbody>
       </table>
     </div>
