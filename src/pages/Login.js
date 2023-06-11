@@ -30,6 +30,7 @@ function Login() {
 
   useEffect(() => {
     if (currentUser && currentUser?.token) {
+      localStorage.setItem('token', currentUser.token)
       navigate('/users')
     }
   }, [currentUser])

@@ -24,6 +24,7 @@ function Header() {
   const onLogoutClick = () => {
     dispatch(logOut())
     dispatch(clearState())
+    localStorage.removeItem('token')
     navigate('/')
   }
 
