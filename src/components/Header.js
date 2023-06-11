@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, NavLink } from 'react-router-dom'
+import { useLocation, useNavigate, NavLink } from 'react-router-dom'
 import logo from 'assets/images/logo-nobg.png'
 
 // Redux
@@ -9,6 +9,7 @@ import { clearState } from 'store/users/usersSlice'
 
 function Header() {
   const location = useLocation()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.login.currentUser)
   const currentPathClass = location.pathname === '/' ? 'hidden' : 'block'
@@ -19,6 +20,12 @@ function Header() {
       setIsLoggedIn(true)
     }
   }, [currentUser])
+
+  const onLogoutClick = () => {
+    dispatch(logOut())
+    dispatch(clearState())
+    navigate('/')
+  }
 
   return (
     <header className={`${currentPathClass} bg-gray-100`}>
@@ -49,10 +56,7 @@ function Header() {
                 <button
                   type="button"
                   className="text-base sm:text-lg hover:underline"
-                  onClick={() => {
-                    dispatch(logOut())
-                    dispatch(clearState())
-                  }}
+                  onClick={onLogoutClick}
                 >
                   Logout
                 </button>
