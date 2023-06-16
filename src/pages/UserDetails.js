@@ -1,25 +1,79 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
-import { validateUserDetails as validate } from 'utils/validate'
+import {
+  validateUserDetails as validate,
+  compareObjectValues,
+} from 'utils/validate'
 import CustomInput from 'atoms/CustomInput'
 import CustomButton from 'atoms/CustomButton'
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUser, updateUser } from 'store/users/usersSlice'
+
 function UserDetails() {
   const params = useParams()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const updatedUser = useSelector((state) => state.users.updatedUser)
+  const currentUser = useSelector((state) => state.login.currentUser)
+  const roles = ['role', 'user', 'admin']
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      role: '1',
-      active: true,
+      name: updatedUser?.name ?? '',
+      email: updatedUser?.email ?? '',
+      role: updatedUser?.role ?? 'user',
+      active: updatedUser?.active ?? true,
     },
+    enableReinitialize: true,
     validate,
     onSubmit: (values) => {
-      console.log(values)
+      const initialFormData = compareObjectValues(formik.initialValues, values)
+
+      // If initial form value changes
+      if (!initialFormData) {
+        const data = { id: params.id, formData: values }
+        dispatch(updateUser(data))
+      } else {
+        formik.setErrors({ formValues: 'No value have been change.' })
+      }
     },
   })
+
+  // If not logged in, redirect back to login page
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/')
+    }
+  }, [currentUser])
+
+  // If not admin, redirect back to all users page
+  useEffect(() => {
+    if (currentUser && currentUser?.user?.role !== 'admin') {
+      navigate('/users')
+    }
+  }, [currentUser])
+
+  // If currently updated user is null, fetch using user id
+  useEffect(() => {
+    if (!updatedUser) {
+      dispatch(fetchUser(params.id))
+    }
+  }, [updatedUser])
+
+  const renderSelectOption = () =>
+    roles.map((role, index) => (
+      <option
+        value={role}
+        disabled={role === 'role'}
+        selected={updatedUser?.role === role}
+        key={`${role}-${index}`}
+      >
+        {role}
+      </option>
+    ))
 
   return (
     <div className="max-w-7xl mx-auto py-8 md:py-12 lg:py-16 px-4">
@@ -27,7 +81,7 @@ function UserDetails() {
         <h1 className="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-4 md:mb-5">
           User Details
         </h1>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} className="relative">
           <CustomInput
             id="name"
             type="text"
@@ -54,15 +108,11 @@ function UserDetails() {
             <select
               id="role"
               name="role"
-              defaultValue="0"
-              className={`bg-role-icon bg-no-repeat bg-25 md:bg-30 bg-left-center w-full shadow-md px-10 lg:px-11 py-3 lg:py-4 rounded-md cursor-pointer focus-visible:outline-gray-300`}
+              className={`bg-role-icon bg-no-repeat bg-25 md:bg-30 bg-left-center w-full shadow-md px-10 lg:px-11 py-3 lg:py-4 rounded-md cursor-pointer focus-visible:outline-gray-300 capitalize`}
               onChange={formik.handleChange}
+              value={formik.values.updatedUser}
             >
-              <option value="0" disabled>
-                Role
-              </option>
-              <option value="1">User</option>
-              <option value="2">Admin</option>
+              {renderSelectOption()}
             </select>
           </div>
           <CustomInput
@@ -71,7 +121,7 @@ function UserDetails() {
             name="lastIn"
             placeholder="Last logged in"
             inputClass="bg-login-icon text-gray-400"
-            value={new Date().toLocaleString()}
+            value={new Date(updatedUser?.lastLoggedIn).toLocaleString()}
             isDisabled={true}
           />
           <div className="relative mb-5 lg:mb-6 px-3 text-right">
@@ -87,7 +137,12 @@ function UserDetails() {
               checked={formik.values.active}
             />
           </div>
-          <CustomButton type="submit" buttonText="Login" />
+          <CustomButton type="submit" buttonText="Update" />
+          {formik.errors.formValues && (
+            <span className="w-full block absolute text-xs text-center text-red-600 tracking-wide py-2">
+              {formik.errors.formValues}
+            </span>
+          )}
         </form>
       </div>
     </div>
