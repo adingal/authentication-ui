@@ -4,11 +4,64 @@ import auth from 'api'
 // Fetch all users
 export const fetchUsers = createAsyncThunk(
   'api/fetchUsers',
-  async (token, { rejectWithValue }) => {
-    auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
-
+  async ({ rejectWithValue }) => {
     try {
+      const token = localStorage.getItem('token') ?? null
+
+      if (token) {
+        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
+      }
+
       const response = await auth.get('/api/v1/users')
+      return response.data
+    } catch (err) {
+      if (!err.response) {
+        throw err
+      }
+
+      return rejectWithValue(err.response.data)
+    }
+  }
+)
+
+// Fetch single user
+export const fetchUser = createAsyncThunk(
+  'api/fetchUser',
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token') ?? null
+
+      if (token) {
+        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
+      }
+
+      const response = await auth.get(`/api/v1/users/${id}`)
+      return response.data
+    } catch (err) {
+      if (!err.response) {
+        throw err
+      }
+
+      return rejectWithValue(err.response.data)
+    }
+  }
+)
+
+// Update user
+export const updateUser = createAsyncThunk(
+  'api/updateUser',
+  async (data, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token') ?? null
+
+      if (token) {
+        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
+      }
+
+      const response = await auth.patch(
+        `/api/v1/users/${data.id}`,
+        data.formData
+      )
       return response.data
     } catch (err) {
       if (!err.response) {
@@ -49,6 +102,34 @@ const usersSlice = createSlice({
         state.userList = data.users
       })
       .addCase(fetchUsers.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.payload
+      })
+      // Fetch single user
+      .addCase(fetchUser.pending, (state) => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        const { data } = action.payload
+        state.isLoading = false
+        state.updatedUser = { ...data.user }
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.payload
+      })
+      // Update user
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        const { data } = action.payload
+        state.isLoading = false
+        state.updatedUser = { ...data.updatedUser }
+      })
+      .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload
       })
