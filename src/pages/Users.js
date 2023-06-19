@@ -6,6 +6,7 @@ import TableItem from 'atoms/TableItem'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUsers } from 'store/users/usersSlice'
+import { openModal } from 'store/modal/modalSlice'
 
 function Users() {
   const navigate = useNavigate()
@@ -25,6 +26,11 @@ function Users() {
 
   const onEditClick = (id) => {
     navigate(`/users/${id}`)
+  }
+
+  const onDeleteClick = (id) => {
+    // navigate(`/users/${id}`)
+    dispatch(openModal(id))
   }
 
   return (
@@ -48,7 +54,7 @@ function Users() {
               Active
             </th>
             <th className="min-w-[150px] text-base text-left text-gray-600 tracking-wide font-medium border-b border-gray-300 p-4">
-              Action
+              Actions
             </th>
           </tr>
         </thead>
@@ -56,7 +62,12 @@ function Users() {
           {users &&
             users?.length > 0 &&
             users.map((item) => (
-              <TableItem item={item} onEditClick={onEditClick} key={item._id} />
+              <TableItem
+                item={item}
+                onEditClick={onEditClick}
+                onDeleteClick={onDeleteClick}
+                key={item._id}
+              />
             ))}
         </tbody>
       </table>
