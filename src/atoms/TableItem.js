@@ -14,13 +14,22 @@ function TableItem(props) {
       <td className="text-left p-4">{active ? 'Yes' : 'No'}</td>
       <td className="text-left p-4">
         {role === 'admin' ? (
-          <button
-            className="mr-2"
-            type="button"
-            onClick={() => props.onEditClick(_id)}
-          >
-            Edit
-          </button>
+          <div className="flex flex-row justify-start">
+            <button
+              className="mr-2 hover:underline hover:text-blue-600"
+              type="button"
+              onClick={() => props.onEditClick(_id)}
+            >
+              Edit
+            </button>
+            <button
+              className="mr-2 hover:underline hover:text-red-600"
+              type="button"
+              onClick={() => props.onDeleteClick(_id)}
+            >
+              Delete
+            </button>
+          </div>
         ) : (
           <p>--</p>
         )}
