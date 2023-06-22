@@ -132,6 +132,7 @@ const usersSlice = createSlice({
     clearState: (state) => {
       state.userList = []
       state.updatedUser = null
+      state.newUser = null
       state.isLoading = false
       state.error = null
     },
