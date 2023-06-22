@@ -2,6 +2,7 @@ import React from 'react'
 
 function TableItem(props) {
   const { _id, name, email, role, lastLoggedIn, active } = props.item
+  const { role: currentUserRole } = props.loggedInUser
 
   return (
     <tr className="border-b border-gray-100">
@@ -13,7 +14,7 @@ function TableItem(props) {
       </td>
       <td className="text-left p-4">{active ? 'Yes' : 'No'}</td>
       <td className="text-left p-4">
-        {role === 'admin' ? (
+        {currentUserRole === 'admin' ? (
           <div className="flex flex-row justify-start">
             <button
               className="mr-2 hover:underline hover:text-blue-600"
