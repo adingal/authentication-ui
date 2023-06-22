@@ -56,9 +56,13 @@ function UserDetails() {
     }
   }, [currentUser])
 
-  // If currently updated user is null, fetch using user id
   useEffect(() => {
+    // If currently updated user is null, fetch using user id
     if (!updatedUser) {
+      dispatch(fetchUser(params.id))
+    }
+    // If different user - fetch current user data
+    if (updatedUser._id !== params.id) {
       dispatch(fetchUser(params.id))
     }
   }, [updatedUser])
