@@ -17,14 +17,14 @@ function TableItem(props) {
         {currentUserRole === 'admin' ? (
           <div className="flex flex-row justify-start">
             <button
-              className="mr-2 hover:underline hover:text-blue-600"
+              className="w-24 bg-blue-600 px-4 py-1 rounded-md mr-2 text-white hover:bg-blue-800"
               type="button"
               onClick={() => props.onEditClick(_id)}
             >
               Edit
             </button>
             <button
-              className="mr-2 hover:underline hover:text-red-600"
+              className="w-24 bg-red-600 px-4 py-1 rounded-md mr-2 text-white hover:bg-red-800"
               type="button"
               onClick={() => props.onDeleteClick(_id)}
             >
