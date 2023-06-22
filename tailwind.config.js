@@ -10,6 +10,7 @@ module.exports = {
         'mail-icon': "url('assets/images/mailIcon.svg')",
         'role-icon': "url('assets/images/roleIcon.svg')",
         'login-icon': "url('assets/images/loginIcon.svg')",
+        'lock-icon': "url('assets/images/lockedCloseIcon.svg')",
         darkness: "url('assets/images/darkness.webp')",
       },
       backgroundSize: {
