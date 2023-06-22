@@ -34,15 +34,17 @@ function Users() {
 
   return (
     <div className="max-w-7xl mx-auto py-8 md:py-12 lg:py-16 px-4">
-      <div className="max-w-4xl mx-auto mb-8 lg:mb-12">
-        <button
-          className="flex flex-row ml-auto bg-green-600 border transition py-2 px-4 rounded-md tracking-wide text-white hover:bg-green-800 hover:text-gray-100"
-          type="button"
-          onClick={() => navigate('/users/add')}
-        >
-          Add User
-        </button>
-      </div>
+      {currentUser?.role === 'admin' && (
+        <div className="max-w-4xl mx-auto mb-8 lg:mb-12">
+          <button
+            className="flex flex-row ml-auto bg-green-600 border transition py-2 px-4 rounded-md tracking-wide text-white hover:bg-green-800 hover:text-gray-100"
+            type="button"
+            onClick={() => navigate('/users/add')}
+          >
+            Add User
+          </button>
+        </div>
+      )}
       <table className="table-fixed mx-auto">
         <thead>
           <tr>
@@ -67,8 +69,7 @@ function Users() {
           </tr>
         </thead>
         <tbody>
-          {users &&
-            users?.length > 0 &&
+          {users?.length > 0 &&
             users.map((item) => (
               <TableItem
                 loggedInUser={currentUser.user}
