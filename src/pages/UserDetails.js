@@ -62,7 +62,7 @@ function UserDetails() {
       dispatch(fetchUser(params.id))
     }
     // If different user - fetch current user data
-    if (updatedUser._id !== params.id) {
+    if (updatedUser?._id !== params.id) {
       dispatch(fetchUser(params.id))
     }
   }, [updatedUser])
