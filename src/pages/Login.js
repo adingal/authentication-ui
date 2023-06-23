@@ -23,6 +23,8 @@ function Login() {
       password: '',
     },
     validate,
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: (values) => {
       dispatch(loginUser(values))
     },
