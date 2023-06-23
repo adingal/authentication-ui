@@ -4,5 +4,11 @@ import logger from 'redux-logger'
 
 export const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) => {
+    // Run logger only on development
+    if (process.env.REACT_APP_NODE_ENV === 'development') {
+      return getDefaultMiddleware().concat(logger)
+    }
+    return getDefaultMiddleware()
+  },
 })
