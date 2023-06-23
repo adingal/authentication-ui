@@ -12,7 +12,7 @@ import CustomButton from 'atoms/CustomButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUser, updateUser } from 'store/users/usersSlice'
 
-function UserDetails() {
+function EditUser() {
   const params = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -153,4 +153,4 @@ function UserDetails() {
   )
 }
 
-export default UserDetails
+export default EditUser

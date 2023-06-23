@@ -14,7 +14,7 @@ import Modal from 'components/Modal'
 // Pages
 import Login from 'pages/Login'
 import Users from 'pages/Users'
-import UserDetails from 'pages/UserDetails'
+import EditUser from 'pages/EditUser'
 import AddUser from 'pages/AddUser'
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/users" element={<Users />} />
-            <Route path="/users/:id" element={<UserDetails />} />
+            <Route path="/users/:id" element={<EditUser />} />
             <Route path="/users/add" element={<AddUser />} />
           </Routes>
         </main>
