@@ -58,8 +58,8 @@ export const validateAddUser = (values) => {
   if (!values.passwordConfirm) {
     errors.passwordConfirm = 'Confirm password is required.'
   } else if (values.passwordConfirm !== values.password) {
-    errors.passwordConfirm = 'Password is not the same.'
-    errors.password = 'Password is not the same.'
+    errors.passwordConfirm = 'Password are not the same.'
+    errors.password = 'Password are not the same.'
   }
 
   return errors
