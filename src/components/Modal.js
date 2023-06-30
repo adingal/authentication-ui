@@ -4,14 +4,20 @@ import closeCircleIcon from 'assets/images/closeCircleIcon.svg'
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
 import { closeModal } from 'store/modal/modalSlice'
+import { deleteUser, fetchUsers } from 'store/users/usersSlice'
 
 function Modal() {
   const dispatch = useDispatch()
   const isModalOpen = useSelector((state) => state.modal.isModalOpen)
+  const targetUserId = useSelector((state) => state.modal.userId)
 
   useEffect(() => {}, [isModalOpen])
 
-  const onYesClick = () => {}
+  const onYesClick = () => {
+    dispatch(deleteUser(targetUserId))
+    dispatch(closeModal())
+    dispatch(fetchUsers(localStorage.getItem('token')))
+  }
 
   if (!isModalOpen) return
 
@@ -22,7 +28,11 @@ function Modal() {
           <h6 className="text-lg md:text-xl lg:text-2xl border-b pb-2">
             Delete User
           </h6>
-          <button className="absolute top-2 right-2" type="button">
+          <button
+            onClick={() => dispatch(closeModal())}
+            className="absolute top-2 right-2"
+            type="button"
+          >
             <img className="w-6 h-6" src={closeCircleIcon} alt="Close" />
           </button>
         </div>
