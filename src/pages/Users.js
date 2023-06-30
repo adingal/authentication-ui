@@ -14,9 +14,7 @@ function Users() {
   const users = useSelector((state) => state.users.userList)
 
   useEffect(() => {
-    if (users && users.length === 0) {
-      dispatch(fetchUsers(localStorage.getItem('token')))
-    }
+    dispatch(fetchUsers(localStorage.getItem('token')))
   }, [])
 
   useEffect(() => {
@@ -28,23 +26,11 @@ function Users() {
   }
 
   const onDeleteClick = (id) => {
-    // navigate(`/users/${id}`)
     dispatch(openModal(id))
   }
 
   return (
     <div className="max-w-7xl mx-auto py-8 md:py-12 lg:py-16 px-4">
-      {currentUser?.user?.role === 'admin' && (
-        <div className="max-w-4xl mx-auto mb-8 lg:mb-12">
-          <button
-            className="flex flex-row ml-auto bg-green-600 border transition py-2 px-4 rounded-md tracking-wide text-white hover:bg-green-800 hover:text-gray-100"
-            type="button"
-            onClick={() => navigate('/users/add')}
-          >
-            Add User
-          </button>
-        </div>
-      )}
       <table className="table-fixed mx-auto">
         <thead>
           <tr>
@@ -79,6 +65,24 @@ function Users() {
                 key={item._id}
               />
             ))}
+          {currentUser?.user?.role === 'admin' && (
+            <tr className="border-b border-gray-100">
+              <td className="text-left p-4"></td>
+              <td className="text-left p-4"></td>
+              <td className="text-left p-4 capitalize"></td>
+              <td className="text-left p-4"></td>
+              <td className="text-left p-4"></td>
+              <td className="text-right p-4">
+                <button
+                  className="w-24 bg-green-600 px-4 py-1 rounded-md mr-2 text-white hover:bg-green-800"
+                  type="button"
+                  onClick={() => navigate('/users/add')}
+                >
+                  Add User
+                </button>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
