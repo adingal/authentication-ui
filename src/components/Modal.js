@@ -13,8 +13,8 @@ function Modal() {
 
   useEffect(() => {}, [isModalOpen])
 
-  const onYesClick = () => {
-    dispatch(deleteUser(targetUserId))
+  const onYesClick = async () => {
+    await dispatch(deleteUser(targetUserId))
     dispatch(closeModal())
     dispatch(fetchUsers(localStorage.getItem('token')))
   }
