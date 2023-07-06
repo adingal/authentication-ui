@@ -7,7 +7,7 @@ function PageTitle(props) {
     <div
       className={`w-full ${bgColor} text-gray-600 border-l-4 ${borderColor} mb-2 md:mb-4 lg:mb-6 py-4`}
     >
-      <h1 className="text-xl md:text-2xl lg:text-3xl pl-2">{title}</h1>
+      <h1 className="text-xl md:text-2xl lg:text-3xl pl-3">{title}</h1>
     </div>
   )
 }
