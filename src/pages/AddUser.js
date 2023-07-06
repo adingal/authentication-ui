@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import { validateAddUser as validate } from 'utils/validate'
 import CustomInput from 'atoms/CustomInput'
 import CustomButton from 'atoms/CustomButton'
+import PageTitle from 'atoms/PageTitle'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -56,9 +57,11 @@ function AddUser() {
   return (
     <div className="max-w-7xl mx-auto py-8 md:py-12 lg:py-16 px-4">
       <div className="max-w-md mx-auto">
-        <h1 className="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-4 md:mb-5">
-          User Details
-        </h1>
+        <PageTitle
+          title="Add User"
+          bgColor="bg-green-50"
+          borderColor="border-green-600"
+        />
         <form onSubmit={formik.handleSubmit} className="relative">
           <CustomInput
             id="name"

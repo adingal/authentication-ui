@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TableItem from 'atoms/TableItem'
+import PageTitle from 'atoms/PageTitle'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,7 +32,12 @@ function Users() {
 
   return (
     <div className="max-w-7xl mx-auto py-8 md:py-12 lg:py-16 px-4">
-      <table className="table-fixed mx-auto">
+      <PageTitle
+        title="Users"
+        bgColor="bg-gray-50"
+        borderColor="border-gray-600"
+      />
+      <table className="w-full table-fixed mx-auto">
         <thead>
           <tr>
             <th className="min-w-[150px] text-base text-left text-gray-600 tracking-wide font-medium border-b border-gray-300 p-4">
