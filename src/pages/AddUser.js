@@ -120,7 +120,12 @@ function AddUser() {
               {renderSelectOption()}
             </select>
           </div>
-          <CustomButton type="submit" buttonText="Add" />
+          <CustomButton
+            type="submit"
+            buttonText="Add"
+            bgColor="bg-green-400"
+            bgHoverColor="bg-green-600"
+          />
           {formik.errors.formValues && (
             <span className="w-full block absolute text-xs text-center text-red-600 tracking-wide py-2">
               {formik.errors.formValues}
