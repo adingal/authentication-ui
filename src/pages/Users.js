@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TableItem from 'atoms/TableItem'
 import PageTitle from 'atoms/PageTitle'
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchUsers } from 'store/users/usersSlice'
-import { openModal } from 'store/modal/modalSlice'
+import { fetchUsers, deleteUser } from 'store/users/usersSlice'
+import { openModal, closeModal } from 'store/modal/modalSlice'
 
 function Users() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.login.currentUser)
   const users = useSelector((state) => state.users.userList)
+  const isYesButton = useSelector((state) => state.modal.isYesButton)
+  const [deleteUserID, setDeleteUserID] = useState(null)
 
   useEffect(() => {
     dispatch(fetchUsers(localStorage.getItem('token')))
@@ -22,12 +24,30 @@ function Users() {
     if (!currentUser) navigate('/')
   }, [currentUser])
 
+  useEffect(() => {
+    if (isYesButton && deleteUserID !== null) {
+      onYesModalClick(deleteUserID)
+    }
+  }, [isYesButton, deleteUserID])
+
   const onEditClick = (id) => {
     navigate(`/users/${id}`)
   }
 
   const onDeleteClick = (id) => {
-    dispatch(openModal(id))
+    dispatch(
+      openModal({
+        title: 'Delete User',
+        content: 'Are you sure you want to delete this user?',
+      })
+    )
+    setDeleteUserID(id)
+  }
+
+  const onYesModalClick = async () => {
+    await dispatch(deleteUser(deleteUserID))
+    await dispatch(closeModal())
+    dispatch(fetchUsers(localStorage.getItem('token')))
   }
 
   return (

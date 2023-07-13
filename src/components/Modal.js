@@ -3,21 +3,15 @@ import closeCircleIcon from 'assets/images/closeCircleIcon.svg'
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
-import { closeModal } from 'store/modal/modalSlice'
-import { deleteUser, fetchUsers } from 'store/users/usersSlice'
+import { closeModal, setYesModal } from 'store/modal/modalSlice'
 
 function Modal() {
   const dispatch = useDispatch()
   const isModalOpen = useSelector((state) => state.modal.isModalOpen)
-  const targetUserId = useSelector((state) => state.modal.userId)
+  const title = useSelector((state) => state.modal.title)
+  const content = useSelector((state) => state.modal.content)
 
   useEffect(() => {}, [isModalOpen])
-
-  const onYesClick = async () => {
-    await dispatch(deleteUser(targetUserId))
-    dispatch(closeModal())
-    dispatch(fetchUsers(localStorage.getItem('token')))
-  }
 
   if (!isModalOpen) return
 
@@ -26,7 +20,7 @@ function Modal() {
       <div className="min-w-[384px] relative flex flex-col space-y-4 p-4 bg-white rounded-md">
         <div>
           <h6 className="text-lg md:text-xl lg:text-2xl border-b pb-2">
-            Delete User
+            {title !== '' ? title : 'Modal Title'}
           </h6>
           <button
             onClick={() => dispatch(closeModal())}
@@ -37,10 +31,10 @@ function Modal() {
           </button>
         </div>
         <div className="py-8">
-          <p>Are you sure you want to delete this user?</p>
+          <p>{content !== '' ? content : 'Modal content'}</p>
         </div>
         <div className="flex flex-row items-center justify-end space-x-4 md:space-x-6 lg:space-x-8 border-t pt-2">
-          <button type="button" onClick={onYesClick}>
+          <button type="button" onClick={() => dispatch(setYesModal())}>
             Yes
           </button>
           <button type="button" onClick={() => dispatch(closeModal())}>

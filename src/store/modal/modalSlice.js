@@ -4,20 +4,28 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     isModalOpen: false,
-    userId: null,
+    isYesButton: false,
+    title: '',
+    content: '',
   },
   reducers: {
     openModal: (state, action) => {
       state.isModalOpen = true
-      state.userId = action.payload
+      state.title = action.payload.title
+      state.content = action.payload.content
     },
     closeModal: (state) => {
       state.isModalOpen = false
-      state.userId = null
+      state.isYesButton = false
+      state.title = ''
+      state.content = ''
+    },
+    setYesModal: (state) => {
+      state.isYesButton = true
     },
   },
 })
 
-export const { openModal, closeModal } = modalSlice.actions
+export const { openModal, closeModal, setYesModal } = modalSlice.actions
 
 export default modalSlice.reducer
