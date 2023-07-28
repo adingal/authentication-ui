@@ -1,16 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import auth from 'api'
 
+const getAndSetToken = () => {
+  const token = localStorage.getItem('token') ?? null
+  if (token) {
+    auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
+  }
+}
+
 // Fetch all users
 export const fetchUsers = createAsyncThunk(
   'api/fetchUsers',
   async ({ rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token') ?? null
-
-      if (token) {
-        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
-      }
+      getAndSetToken()
 
       const response = await auth.get('/api/v1/users')
       return response.data
@@ -29,11 +32,7 @@ export const fetchUser = createAsyncThunk(
   'api/fetchUser',
   async (id, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token') ?? null
-
-      if (token) {
-        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
-      }
+      getAndSetToken()
 
       const response = await auth.get(`/api/v1/users/${id}`)
       return response.data
@@ -52,11 +51,7 @@ export const addUser = createAsyncThunk(
   'api/addUser',
   async (data, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token') ?? null
-
-      if (token) {
-        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
-      }
+      getAndSetToken()
 
       const response = await auth.post('/api/v1/users/', data)
       return response.data
@@ -75,11 +70,7 @@ export const updateUser = createAsyncThunk(
   'api/updateUser',
   async (data, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token') ?? null
-
-      if (token) {
-        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
-      }
+      getAndSetToken()
 
       const response = await auth.patch(
         `/api/v1/users/${data.id}`,
@@ -101,11 +92,7 @@ export const deleteUser = createAsyncThunk(
   'api/deleteUser',
   async (id, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token') ?? null
-
-      if (token) {
-        auth.defaults.headers.common = { Authorization: `Bearer ${token}` }
-      }
+      getAndSetToken()
 
       const response = await auth.delete(`/api/v1/users/${id}`)
       return response.data
