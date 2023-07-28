@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import {
@@ -19,6 +19,7 @@ function EditUser() {
   const dispatch = useDispatch()
   const updatedUser = useSelector((state) => state.users.updatedUser)
   const currentUser = useSelector((state) => state.login.currentUser)
+  const [successMessage, setSuccessMessage] = useState('')
   const roles = ['role', 'user', 'admin']
 
   const formik = useFormik({
@@ -30,13 +31,14 @@ function EditUser() {
     },
     enableReinitialize: true,
     validate,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const initialFormData = compareObjectValues(formik.initialValues, values)
 
       // If initial form value changes
       if (!initialFormData) {
         const data = { id: params.id, formData: values }
-        dispatch(updateUser(data))
+        await dispatch(updateUser(data))
+        setSuccessMessage('Update successfull.')
       } else {
         formik.setErrors({ formValues: 'No value have been change.' })
       }
@@ -153,6 +155,11 @@ function EditUser() {
           {formik.errors.formValues && (
             <span className="w-full block absolute text-xs text-center text-red-600 tracking-wide py-2">
               {formik.errors.formValues}
+            </span>
+          )}
+          {successMessage !== '' && !formik.errors.formValues && (
+            <span className="w-full block absolute text-xs text-center text-green-600 tracking-wide py-2">
+              {successMessage}
             </span>
           )}
         </form>
