@@ -44,7 +44,7 @@ CustomInput.defaultProps = {
   placeholder: 'Enter placeholder here',
   value: 'Enter value here',
   hasError: false,
-  errorText: 'Enter error text here',
+  errorText: '',
   inputClass: 'sampleClass',
   onChange: () => {},
   isDisabled: false,
