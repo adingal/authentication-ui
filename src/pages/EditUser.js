@@ -50,14 +50,14 @@ function EditUser() {
     if (!currentUser) {
       navigate('/')
     }
-  }, [currentUser])
+  }, [currentUser, navigate])
 
   // If not admin, redirect back to all users page
   useEffect(() => {
     if (currentUser && currentUser?.user?.role !== 'admin') {
       navigate('/users')
     }
-  }, [currentUser])
+  }, [currentUser, navigate])
 
   useEffect(() => {
     // If currently updated user is null, fetch using user id
@@ -68,7 +68,7 @@ function EditUser() {
     if (updatedUser?._id !== params.id) {
       dispatch(fetchUser(params.id))
     }
-  }, [updatedUser])
+  }, [updatedUser, dispatch, params.id])
 
   const renderSelectOption = () =>
     roles.map((role, index) => (
