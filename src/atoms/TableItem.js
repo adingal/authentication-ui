@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 function TableItem(props) {
   const { _id, name, email, role, lastLoggedIn, active } = props.item
@@ -37,6 +38,16 @@ function TableItem(props) {
       </td>
     </tr>
   )
+}
+
+TableItem.defaultProps = {
+  item: {},
+  loggedInUser: {},
+}
+
+TableItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
 }
 
 export default TableItem

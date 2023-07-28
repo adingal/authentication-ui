@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 function CustomInput(props) {
   const {
@@ -35,6 +36,30 @@ function CustomInput(props) {
       )}
     </div>
   )
+}
+
+CustomInput.defaultProps = {
+  id: 'sampleId',
+  type: 'text',
+  placeholder: 'Enter placeholder here',
+  value: 'Enter value here',
+  hasError: false,
+  errorText: 'Enter error text here',
+  inputClass: 'sampleClass',
+  onChange: () => {},
+  isDisabled: false,
+}
+
+CustomInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  errorText: PropTypes.string.isRequired,
+  inputClass: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
 }
 
 export default CustomInput
